@@ -6,7 +6,7 @@
         ><v-btn to="/">{{ title }}</v-btn></v-toolbar-title
       >
       <v-spacer />
-      <v-btn :to="login.to"
+      <v-btn :to="login.to" plain
         ><v-icon>{{ login.icon }}</v-icon
         >{{ login.title }}</v-btn
       >

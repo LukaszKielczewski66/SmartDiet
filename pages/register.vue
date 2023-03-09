@@ -1,21 +1,4 @@
 <template>
-  <!-- <v-row justify="center" align="center">
-    <v-col cols="12" sm="6" md="4">
-      <v-card class="logo py-4 d-flex justify-center">
-        <v-form @submit.prevent>
-          <h1>Register</h1>
-          <v-text-field
-            v-model="firstName"
-            :rules="rules"
-            label="First name"
-          ></v-text-field>
-          <v-btn type="submit" block class="mt-2">Submit</v-btn>
-          <br />
-          <v-btn color="primary" to="/login">I have account</v-btn>
-        </v-form>
-      </v-card>
-    </v-col>
-  </v-row> -->
   <v-row class="d-flex justify-center align-center">
     <v-card class="register-card mx-8 mt-10">
       <v-card-title>{{ currentTitle }}</v-card-title>
@@ -103,7 +86,7 @@
         <v-btn v-if="step === 2" color="primary" tile @click="createAccount()">
           Utwórz konto!
         </v-btn>
-        <v-btn v-if="step === 3" color="primary" tile>
+        <v-btn v-if="step === 3" to="/login" color="primary" tile>
          Zaloguj się
         </v-btn>
         <v-spacer v-if="step === 3"></v-spacer>
@@ -131,12 +114,6 @@ export default {
     activities: ['Mała', 'Średnia', 'Duża'],
     goal: '',
     goals: ['Chcę schudnąć', 'Chcę utrzymać wagę', 'Chcę przytyć'],
-    // rules: [
-    //   (value) => {
-    //     if (value) return true
-    //     return 'You must enter a first name.'
-    //   },
-    // ],
   }),
   head() {
     // SEO
