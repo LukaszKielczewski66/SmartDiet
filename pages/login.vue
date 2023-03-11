@@ -12,7 +12,13 @@
           <v-btn type="submit" block class="mt-2">Submit</v-btn>
           <br />
           <v-btn color="primary" to="/register">I don't have an account</v-btn>
+          <v-btn type="submit" block class="mt-2" @click="login">1. test login</v-btn>
+          <v-btn type="submit" block class="mt-2" @click="getRecipes">2. test get recipes</v-btn>
         </v-form>
+      </v-card>
+      <v-card>
+        <v-card-title>TEST DATA</v-card-title>
+        {{ recipes }}
       </v-card>
     </v-col>
   </v-row>
@@ -30,6 +36,8 @@ export default {
         return 'You must enter a first name.'
       },
     ],
+    token:'',
+    recipes:[],
   }),
   head() {
     // SEO
@@ -37,6 +45,38 @@ export default {
       title: 'login',
     }
   },
+  methods: {
+    async login () {
+      const userData = {
+        email: "john.doe@example.com",
+        password: "password"
+      };
+      try {
+        const response = await this.$axios.post('/api/login', userData);
+        this.token = response.data.token;
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.log(err)
+      }
+    },
+    async getRecipes () {
+      try {
+        const response = await this.$axios.get('/api/recipes',{
+          // body
+        // }, {
+          headers: {
+            authorization: 'Bearer ' + this.token
+          }
+        });
+        this.recipes = response.data;
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.log(this.token)
+        // eslint-disable-next-line no-console
+        console.log(err)
+      }
+    }
+  }
 }
 </script>
 <style></style>
