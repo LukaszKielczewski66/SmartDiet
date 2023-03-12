@@ -17,6 +17,25 @@ const pool = new Pool({
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
+app.post('api/register', (req, res) => {
+  if (req.body) {
+    const {
+      firstname,
+      lastname,
+      email,
+      password,
+      height,
+      weight,
+      age,
+      gender,
+      activity,
+      goal
+    } = req.body;
+
+    pool.query('ogarne tu zapytanie');
+  }
+})
+
 app.post('/login', (req, res) => {
   const { email, password } = req.body
   pool.query(

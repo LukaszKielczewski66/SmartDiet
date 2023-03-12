@@ -137,8 +137,20 @@ export default {
     createAccount () {
       // walidacja
       this.step++;
+      const user = {
+        firstname: this.firstname,
+        lastname: this.lastname,
+        email: this.email,
+        password: this.password,
+        height: this.height,
+        weight: this.weight,
+        age: this.age,
+        gender: this.gender,
+        activity: this.activity,
+        goal: this.goal
+      }
       this.$axios
-      .post()
+      .post('api/register', user )
       .then(res => {
         console.log(res);
       })
