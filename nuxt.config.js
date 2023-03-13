@@ -80,6 +80,6 @@ export default {
   ** Server Middleware
   */
   serverMiddleware: {
-    '/api': '~/api'
+    '/server': '~/server/server.js'
   },
 }
