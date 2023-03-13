@@ -97,7 +97,7 @@ export default {
         this.token = response.data.token;
         response.status ? this.successMsg = 'Logged in' : this.errorMsg = response.statusTex;
       } catch (err) {
-        err.response.data.message ? this.errorMsg = err.response.data.message : this.errorMsg = err.response.statusTex;
+        this.errorMsg = err
         // eslint-disable-next-line no-console
         console.log(err)
       }
@@ -114,7 +114,7 @@ export default {
         });
         this.recipes = response.data;
       } catch (err) {
-        this.errorMsg = err.response.data.message
+        this.errorMsg = err
         // eslint-disable-next-line no-console
         console.log(err)
       }

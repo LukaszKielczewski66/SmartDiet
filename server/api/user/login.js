@@ -1,10 +1,10 @@
 const express = require(`express`);
-const pool = require('../../pgUtils');
 const jwt = require('jsonwebtoken')
+const pool = require('../../pgUtils').pool;
 const router = express.Router();
 
 router.get('/', (req, res) => {
-    res.send('login here')
+    res.send('login here :)')
 })
 
 router.post('/', (req, res) => {

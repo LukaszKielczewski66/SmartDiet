@@ -1,13 +1,15 @@
+/* eslint-disable no-console */
 const express = require(`express`);
-const pool = require('../../pgUtils');
 const jwt = require('jsonwebtoken')
+const pool = require('../../pgUtils').pool;
 const router = express.Router();
 
-router.get('/test', (req, res) => {
-    res.send('recipes here');
+router.get('/', (req, res) => {
+  console.log('test')
+    res.send('recipes here :)');
 })
 
-router.get('/recipes', (req, res) => {
+router.get('/', (req, res) => {
     try {
       const authHeader = req.headers.authorization
       const userId = authHeader.split(' ')[1]

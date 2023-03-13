@@ -1,9 +1,10 @@
+/* eslint-disable no-unused-vars */
 const express = require(`express`);
-const pool = require('../../pgUtils');
+const pool = require('../../pgUtils').pool;
 const router = express.Router();
 
-router.get('/register', (req, res) => {
-    res.send('rejestracja ok');
+router.get('/', (req, res) => {
+    res.send('rejestracja ok :)');
 })
 
 router.post('/', (req, res) => {
