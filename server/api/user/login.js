@@ -1,6 +1,6 @@
 const express = require(`express`);
 const jwt = require('jsonwebtoken')
-const pool = require('../../pgUtils').pool;
+const db = require('../../pgUtils')
 const router = express.Router();
 
 router.get('/', (req, res) => {
@@ -9,7 +9,7 @@ router.get('/', (req, res) => {
 
 router.post('/', (req, res) => {
     const { email, password } = req.body
-    pool.query(
+    db.query(
       'SELECT * FROM users WHERE email = $1 AND password = $2',
       [email, password],
       (error, results) => {

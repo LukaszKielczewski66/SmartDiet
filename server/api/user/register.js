@@ -1,11 +1,8 @@
 /* eslint-disable no-unused-vars */
+const { query } = require('express');
 const express = require(`express`);
-const pool = require('../../pgUtils').pool;
+const db = require('../../pgUtils')
 const router = express.Router();
-
-router.get('/', (req, res) => {
-    res.send('rejestracja ok :)');
-})
 
 router.post('/', (req, res) => {
     if (req.body) {
@@ -21,10 +18,17 @@ router.post('/', (req, res) => {
         activity,
         goal
       } = req.body;
-  
-      pool.query('ogarne tu zapytanie');
+      db.query('INSERT INTO users (firstname, lastname, email, password, height, weight, age, gender, activity_id, goal_id) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)',
+      [firstname, lastname, email, password, height, weight, age, gender, activity, goal], (err, result) => {
+        if (!result) {
+        console.log('Insert failed:', err);
+        // console.log(res.json(err))
+        return res.json(err)
+        }
+        console.log('Insert successful: ',result)
+        res.send(result)
+      })
     }
-    res.send('register')
   })
 
   module.exports = router;

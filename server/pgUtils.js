@@ -8,4 +8,9 @@ const pool = new Pool({
     port: 5432,
   })
 
-  module.exports = {pool};
+  // module.exports = {pool};
+  module.exports = {
+    query: (text, params, callback) => {
+      return pool.query(text, params, callback)
+    },
+  }

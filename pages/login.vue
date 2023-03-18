@@ -18,9 +18,15 @@
           <br />
           <v-btn color="primary" to="/register">I don't have an account</v-btn>
           <v-alert v-if="successMsg" type="success">{{ successMsg }}</v-alert>
-          <v-btn type="submit" block class="mt-2" @click="login">1. test login</v-btn>
-          <v-btn type="submit" block class="mt-2" @click="getRecipes">2. test get recipes</v-btn>
-          <v-btn type="submit" block class="mt-2" @click="logout">2. test logout</v-btn>
+          <v-btn type="submit" block class="mt-2" @click="login"
+            >1. test login</v-btn
+          >
+          <v-btn type="submit" block class="mt-2" @click="getRecipes"
+            >2. test get recipes</v-btn
+          >
+          <v-btn type="submit" block class="mt-2" @click="logout"
+            >2. test logout</v-btn
+          >
           <v-alert v-if="errorMsg" type="error">{{ errorMsg }}</v-alert>
         </v-form>
       </v-card>
@@ -42,26 +48,26 @@
                     height="200"
                     @click="toggle"
                   >
-                    <div
-                      class="text-h5 flex-grow-1 text-center"
-                    >
-                    {{ recipe.recipe_name }}
-                    {{ isSelected }}
-                    <v-dialog>{{ recipe.recipe_name }}</v-dialog>
-                  </div>
-                </v-card>
-              </v-item>
-            </v-col>
-          </v-row>
-        </v-container>
-      </v-item-group>
-      {{ recipes }}
+                    <div class="text-h5 flex-grow-1 text-center">
+                      {{ recipe.recipe_name }}
+                      {{ isSelected }}
+                      <v-dialog>{{ recipe.recipe_name }}</v-dialog>
+                    </div>
+                  </v-card>
+                </v-item>
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-item-group>
+        {{ recipes }}
       </v-card>
     </v-col>
   </v-row>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   name: 'IndexPage',
   data: () => ({
@@ -74,9 +80,9 @@ export default {
         return 'Required'
       },
     ],
-    token:'',
-    recipes:[],
-    errorMsg:'',
+    token: '',
+    recipes: [],
+    errorMsg: '',
     successMsg: '',
   }),
   head() {
@@ -86,44 +92,54 @@ export default {
     }
   },
   methods: {
-    async login () { // przenieść do store
+    ...mapActions('user', ['fetchUser', 'fetchToken', 'logoutAction']),
+
+    login() {
+      // przenieść do store
       this.errorMsg = ''
+      this.successMsg = ''
       const userData = {
         email: this.email,
-        password: this.password
-      };
+        password: this.password,
+      }
       try {
-        const response = await this.$axios.post('/api/login', userData);
-        this.token = response.data.token;
-        response.status ? this.successMsg = 'Logged in' : this.errorMsg = response.statusTex;
+        this.fetchUser(this.email) // zapis do store
+        this.fetchToken(userData) // init token w store
+        setTimeout(() => {
+          this.token = this.$store.state.user.token
+          this.$store.state.user.token.length === 0
+            ? (this.errorMsg = 'Wrong email or password')
+            : (this.successMsg = 'Logged in')
+        }, 500)
       } catch (err) {
         this.errorMsg = err
         // eslint-disable-next-line no-console
         console.log(err)
       }
     },
-    async getRecipes () {
+    async getRecipes() {
       this.errorMsg = ''
       try {
-        const response = await this.$axios.get('/api/recipes',{
+        const response = await this.$axios.get('/api/recipes', {
           // body
-        // }, {
+          // }, {
           headers: {
-            authorization: 'Bearer ' + this.token
-          }
-        });
-        this.recipes = response.data;
+            authorization: 'Bearer ' + this.$store.state.user.token,
+          },
+        })
+        this.recipes = response.data
       } catch (err) {
         this.errorMsg = err
         // eslint-disable-next-line no-console
         console.log(err)
       }
     },
-    logout() { // przenieść do store
+    logout() {
       this.token = ''
       this.successMsg = ''
-    }
-  }
+      this.logoutAction() // reset store
+    },
+  },
 }
 </script>
 <style></style>

@@ -3,6 +3,7 @@ const app = express()
 
 const register = require('./api/user/register')
 const login = require('./api/user/login')
+const details = require('./api/user/details')
 const recipes = require('./api/recipes/recipes')
 
 app.use(express.json())
@@ -14,6 +15,7 @@ app.get('/', (req, res) => {
 app.use('/register', register);
 app.use('/login', login);
 app.use('/recipes', recipes);
+app.use('/details', details);
 
 
 export default {

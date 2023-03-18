@@ -1,7 +1,7 @@
 <template>
   <v-row class="d-flex justify-center align-center">
     <v-card class="register-card mx-8 mt-10">
-      <v-card-title>{{ currentTitle }}</v-card-title>
+      <v-card-title v-if="errorMsg === ''">{{ currentTitle }}</v-card-title>
       <v-window v-model="step">
         <v-window-item :value="1">
           <v-card-text>
@@ -18,7 +18,10 @@
             </v-row>
             <v-text-field v-model="email" label="E-mail"></v-text-field>
             <v-text-field v-model="password" label="Hasło"></v-text-field>
-            <v-checkbox v-model="terms" label="Akceptuje warunki korzystania"></v-checkbox>
+            <v-checkbox
+              v-model="terms"
+              label="Akceptuje warunki korzystania"
+            ></v-checkbox>
           </v-card-text>
         </v-window-item>
         <v-window-item :value="2">
@@ -54,26 +57,31 @@
                 ></v-select>
               </v-col>
               <v-col cols="12">
-              <v-select
+                <v-select
                   v-model="activity"
                   :items="activities"
+                  item-text="name"
+                  item-value="value"
                   label="Aktywność fizyczna"
-                  clearable
+                  return-object
+                  single-line
                 ></v-select>
               </v-col>
               <v-col cols="12">
                 <v-select
                   v-model="goal"
                   :items="goals"
+                  item-text="name"
+                  item-value="value"
                   label="Twój cel"
-                  clearable
+                  return-object
+                  single-line
                 ></v-select>
               </v-col>
             </v-row>
           </v-card-text>
         </v-window-item>
-        <v-window-item :value="3">
-        </v-window-item>
+        <v-window-item :value="3"> </v-window-item>
       </v-window>
       <v-card-actions>
         <v-spacer></v-spacer>
@@ -86,11 +94,27 @@
         <v-btn v-if="step === 2" color="primary" tile @click="createAccount()">
           Utwórz konto!
         </v-btn>
-        <v-btn v-if="step === 3" to="/login" color="primary" tile>
-         Zaloguj się
+        <v-btn
+          v-if="step === 3 && errorMsg === ''"
+          to="/login"
+          color="primary"
+          tile
+        >
+          Zaloguj się
+        </v-btn>
+        <v-btn
+          v-if="step === 3 && errorMsg.length > 0"
+          color="primary"
+          tile
+          @click="step = 1"
+        >
+          Powrót do Rejestracji
         </v-btn>
         <v-spacer v-if="step === 3"></v-spacer>
       </v-card-actions>
+      <v-alert v-if="step === 3 && errorMsg.length > 0" type="error">{{
+        errorMsg
+      }}</v-alert>
     </v-card>
   </v-row>
 </template>
@@ -100,20 +124,29 @@ export default {
   name: 'IndexPage',
   data: () => ({
     step: 1,
-    firstname: '',
-    lastname: '',
-    email: '',
-    password: '',
+    firstname: 'as',
+    lastname: 'as',
+    email: 'as',
+    password: 'as',
     terms: false,
-    height: '',
-    weight: '',
-    age: '',
-    gender: '',
+    height: 20.0,
+    weight: 20.0,
+    age: 20,
+    gender: 'as',
     genders: ['Mężczyzna', 'Kobieta', 'Helikopter Bojowy'],
-    activity: '',
-    activities: ['Mała', 'Średnia', 'Duża'],
-    goal: '',
-    goals: ['Chcę schudnąć', 'Chcę utrzymać wagę', 'Chcę przytyć'],
+    activity: {},
+    activities: [
+      { name: 'Mała', value: 0 },
+      { name: 'Średnia', value: 1 },
+      { name: 'Duża', value: 2 },
+    ],
+    goal: {},
+    goals: [
+      { name: 'Chcę schudnąć', value: 0 },
+      { name: 'Chcę utrzymać wagę', value: 1 },
+      { name: 'Chcę przytyć', value: 2 },
+    ],
+    errorMsg: '',
   }),
   head() {
     // SEO
@@ -134,9 +167,10 @@ export default {
     },
   },
   methods: {
-    createAccount () {
+    async createAccount() {
+      this.errorMsg = ''
       // walidacja
-      this.step++;
+      this.step++
       const user = {
         firstname: this.firstname,
         lastname: this.lastname,
@@ -146,19 +180,23 @@ export default {
         weight: this.weight,
         age: this.age,
         gender: this.gender,
-        activity: this.activity,
-        goal: this.goal
+        activity: this.activity.value,
+        goal: this.goal.value,
       }
-      this.$axios
-      .post('api/register', user )
-      .then(res => {
-        console.log(res);
-      })
-      .catch(err => {
-        console.log(err);
-      })
-    }
-  }
+      try {
+        const response = await this.$axios.post('api/register', user)
+        // eslint-disable-next-line no-console
+        console.log('res: ', response)
+        if (response.data.name === 'error') {
+          this.errorMsg = response.data.detail
+        }
+      } catch (err) {
+        this.errorMsg = err
+        // eslint-disable-next-line no-console
+        console.log(err)
+      }
+    },
+  },
 }
 </script>
 
