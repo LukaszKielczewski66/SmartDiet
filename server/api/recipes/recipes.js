@@ -14,7 +14,7 @@ router.get('/', (req, res) => {
     const authHeader = req.headers.authorization
     const userId = authHeader.split(' ')[1]
     const decoded = jwt.verify(userId, process.env.NUXT_ENV_API_SECRET)
-    console.log(decoded)
+    console.log('Auth success: ', !!decoded)
     db.query('SELECT * FROM recipes', (error, results) => {
       if (error) {
         res.status(500).json({ message: 'Internal Server Error' }) // Set 500 status code and return JSON error message

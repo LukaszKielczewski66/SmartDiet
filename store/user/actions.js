@@ -10,8 +10,12 @@ export default {
   async fetchToken({ commit }, userData) {
     try {
         const response = await this.$axios.post('/api/login', userData);
+        // eslint-disable-next-line no-console
+        console.log(response);
         commit('setToken', response.data.token)
-    }catch(error){
+      }catch(error){
+      // eslint-disable-next-line no-console
+      console.log(error);
         return error
     }
   }

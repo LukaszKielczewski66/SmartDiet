@@ -18,7 +18,7 @@ router.post('/', (req, res) => {
         }
   
         if (results.rows.length === 0) {
-          res.status(401).json({ message: 'Invalid email or password' })
+          res.status(401).json( 'Invalid email or password' )
         } else {
           const token = jwt.sign(
             { email, password },

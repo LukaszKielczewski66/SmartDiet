@@ -6,9 +6,17 @@
         ><v-btn to="/">{{ title }}</v-btn></v-toolbar-title
       >
       <v-spacer />
-      <v-btn :to="login.to" plain
+      <v-btn v-if="!$store.state.user.token.length > 0" :to="login.to" plain
         ><v-icon>{{ login.icon }}</v-icon
         >{{ login.title }}</v-btn
+      >
+      <v-btn v-if="$store.state.user.token.length > 0" to="/userPanel" plain
+        ><v-icon>{{ login.icon }}</v-icon
+        >Moje konto</v-btn
+      >
+      <v-btn v-if="$store.state.user.token.length > 0" plain @click="logout"
+        ><v-icon>{{ login.icon }}</v-icon
+        >Wyloguj się</v-btn
       >
     </v-app-bar>
     <v-main>
@@ -41,6 +49,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   name: 'DefaultLayout',
   data() {
@@ -70,6 +80,13 @@ export default {
       title: 'Smart Diet',
     }
   },
+  methods: {
+    ...mapActions('user', ['fetchUser', 'fetchToken', 'logoutAction']),
+
+    logout() {
+      this.logoutAction() // reset store
+    },
+  }
 }
 </script>
 <style>

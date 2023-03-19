@@ -1,7 +1,7 @@
 <template>
   <v-row justify="center" align="center">
     <v-col cols="12" sm="8" md="6">
-      <v-card class="logo py-4 d-flex justify-center">
+      <v-card v-if="!$store.state.user.token.length>0" class="logo py-4 d-flex justify-center">
         <v-form @submit.prevent>
           <h1>Login</h1>
           <v-text-field
@@ -17,19 +17,19 @@
           <v-btn type="submit" block class="mt-2">Submit</v-btn>
           <br />
           <v-btn color="primary" to="/register">I don't have an account</v-btn>
-          <v-alert v-if="successMsg" type="success">{{ successMsg }}</v-alert>
           <v-btn type="submit" block class="mt-2" @click="login"
-            >1. test login</v-btn
+          >1. test login</v-btn
           >
-          <v-btn type="submit" block class="mt-2" @click="getRecipes"
-            >2. test get recipes</v-btn
-          >
-          <v-btn type="submit" block class="mt-2" @click="logout"
-            >2. test logout</v-btn
-          >
-          <v-alert v-if="errorMsg" type="error">{{ errorMsg }}</v-alert>
         </v-form>
       </v-card>
+      <v-alert v-if="successMsg && $store.state.user.token.length > 0" type="success">{{ successMsg }}</v-alert>
+      <v-btn type="submit" block class="mt-2" @click="getRecipes"
+        >2. test get recipes</v-btn
+      >
+      <v-btn type="submit" block class="mt-2" @click="logout"
+        >2. test logout</v-btn
+      >
+      <v-alert v-if="errorMsg" type="error">{{ errorMsg }}</v-alert>
       <v-card>
         <v-card-title>TEST DATA</v-card-title>
         <v-item-group selected-class="bg-primary">
@@ -59,7 +59,7 @@
             </v-row>
           </v-container>
         </v-item-group>
-        {{ recipes }}
+        <!-- {{ recipes }} -->
       </v-card>
     </v-col>
   </v-row>

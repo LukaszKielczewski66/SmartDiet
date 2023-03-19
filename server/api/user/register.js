@@ -21,11 +21,11 @@ router.post('/', (req, res) => {
       db.query('INSERT INTO users (firstname, lastname, email, password, height, weight, age, gender, activity_id, goal_id) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)',
       [firstname, lastname, email, password, height, weight, age, gender, activity, goal], (err, result) => {
         if (!result) {
-        console.log('Insert failed:', err);
+        // console.log('Insert failed:', err);
         // console.log(res.json(err))
         return res.json(err)
         }
-        console.log('Insert successful: ',result)
+        // console.log('Insert successful: ',result)
         res.send(result)
       })
     }
