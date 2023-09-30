@@ -1,11 +1,12 @@
 import { Pool } from 'pg'
+const { user, host, database, password, port } = require('../config');
 
 const pool = new Pool({
-    user: 'postgres',
-    host: 'localhost',
-    database: 'postgres',
-    password: process.env.NUXT_ENV_PG_PASSWORD,
-    port: 5432,
+    user: user,
+    host: host,
+    database: database,
+    password: password,
+    port: port,
   })
 
   // module.exports = {pool};
