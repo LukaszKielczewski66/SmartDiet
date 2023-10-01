@@ -1,7 +1,18 @@
 # smart-diet
+![firebase_28dp](https://user-images.githubusercontent.com/64842623/215579973-73decd88-2143-4a6a-8e95-d943c0d1a5a8.png) 
+## Firebase init
+```bash
+$ firebase login
+$ firebase init
+# public dir - dist
+# using Firestore, Hosting, Extensions
+
+$ npm run generate
+$ firebase deploy --only host
+```
+# firebase-conf.js file for SDK
 
 ## Build Setup
-
 ```bash
 # install dependencies
 $ npm install
