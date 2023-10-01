@@ -1,7 +1,8 @@
+const jwt = require('jsonwebtoken')
 const db = require('../db/pgUtils');
 
 class RecipesController {
-    async getRecipes(req, res) {
+    getRecipes(req, res) {
         try {
             const authHeader = req.headers.authorization
             const userId = authHeader.split(' ')[1]

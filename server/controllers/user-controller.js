@@ -1,7 +1,8 @@
+const jwt = require('jsonwebtoken')
 const db = require('../db/pgUtils');
 
 class UserController {
-    async register(req, res) {
+    register(req, res) {
         const {
             firstname,
             lastname,
@@ -16,7 +17,7 @@ class UserController {
           } = req.body;
 
           try {
-            db.query('INSERT INTO users (firstname, lastname, email, password, height, weight, age, gender, activity_id, goal_id) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)',
+            db.query('INSERT INTO s_users (firstname, lastname, email, password, height, weight, age, gender, activity_id, goal_id) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)',
             [firstname, lastname, email, password, height, weight, age, gender, activity, goal], (err, result) => {
                 if (!result) {
                 // console.log('Insert failed:', err);
@@ -30,11 +31,12 @@ class UserController {
             console.log(err);
           }
     }
-    async login(req, res) {
+
+    login(req, res) {
         const { email, password } = req.body;
         try {
             db.query(
-                'SELECT * FROM users WHERE email = $1 AND password = $2',
+                'SELECT * FROM s_users WHERE email = $1 AND password = $2',
                 [email, password],
                 (error, results) => {
                   if (error) {
@@ -57,10 +59,11 @@ class UserController {
             console.log(err);
         }
     }
-    async getUserDetails(req, res) {
+
+    getUserDetails(req, res) {
         try {
             db.query(
-                'SELECT * FROM user_details WHERE email = $1',
+                'SELECT * FROM s_user_details WHERE email = $1',
                 [req.params.email],
                 (error, results) => {
                   if (error) {

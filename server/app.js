@@ -7,7 +7,7 @@ app.get('/', (req, res) => {
 })
 
 app.use(session({
-    secret: sessionKeySecret,
+    secret: process.env.NUXT_ENV_API_SECRET,
     saveUninitialized: true,
     cookie: { maxAge: 1000 * 60 * 60 * 24 * 2 },
     resave: false
