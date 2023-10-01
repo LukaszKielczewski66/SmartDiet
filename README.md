@@ -9,7 +9,7 @@ $ firebase init
 $ npm run generate
 $ firebase deploy --only host
 ```
-# firebase-conf.js file for SDK
+Create firebase-conf.js file for SDK
 
 ## Build Setup
 ```bash
