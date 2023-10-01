@@ -11,7 +11,7 @@ CREATE TABLE goal (
 );
 
 -- Tworzenie tabeli user
-CREATE TABLE users (
+CREATE TABLE s_users (
   id SERIAL PRIMARY KEY,
   firstname VARCHAR(50) NOT NULL,
   lastname VARCHAR(50) NOT NULL,
@@ -51,8 +51,8 @@ VALUES
   ('Chcę utrzymać wagę'),
   ('Chcę przytyć');
  
--- Wstawianie danych testowych do tabeli users
-INSERT INTO users (firstname, lastname, email, password, height, weight, age, gender, activity_id, goal_id)
+-- Wstawianie danych testowych do tabeli s_users
+INSERT INTO s_users (firstname, lastname, email, password, height, weight, age, gender, activity_id, goal_id)
 VALUES 
   ('John', 'Doe', 'john.doe@example.com', 'password', 170, 70, 25, 'Mężczyzna', 2, 1),
   ('Jane', 'Doe', 'jane.doe@example.com', 'password', 160, 60, 30, 'Kobieta', 3, 1),
@@ -68,7 +68,7 @@ VALUES
 ('Krem z dyni', 'dynia, cebula, czosnek, bulion, śmietana, oliwa', '1. Pokroić dynię, cebulę i czosnek, zeszklić na oliwie. 2. Dodać bulion i gotować do miękkości. 3. Zmiksować i dodać śmietanę. Podawać z grzankami.', 150, 5, 10, 20);
 
 -- View do pobrania danych usera
-create view user_details as
-select u.id, u.firstname, u.lastname, u.email, u.password, u.height, u.weight, u.age, u.gender, a.id as activity_id, a.name as activity_name, g.id as goal_id, g.name as goal_name from users u
+create view s_user_details as
+select u.id, u.firstname, u.lastname, u.email, u.password, u.height, u.weight, u.age, u.gender, a.id as activity_id, a.name as activity_name, g.id as goal_id, g.name as goal_name from s_users u
 left join activity a on a.id=u.activity_id 
 left join goal g on g.id=u.goal_id;
