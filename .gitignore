@@ -92,7 +92,7 @@ sw.*
 # Firebase
 .firebase
 .firebaserc
-firebase-conf.js
+firebaseConfig.js
 firestore.rules
 firestore.indexes.json
 firebase.json

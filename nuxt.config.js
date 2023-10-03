@@ -38,7 +38,17 @@ export default {
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
+    '@nuxtjs/icon'
   ],
+  icon: {
+    // Ścieżka do Twojego pliku PNG
+    iconSrc: 'static/icon.png',
+
+    // Opcjonalne: Konfiguracja ikon
+    // Możesz dostosować rozmiar i inne parametry
+    sizes: [64, 120, 144, 152, 192, 384, 512],
+    customFileName: size => `icon_${size}.icon_${size}.png` // Dostosowany format nazw plików
+  },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
